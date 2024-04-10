@@ -76,3 +76,5 @@ wallet.dat
 *.pid
 *.lock
 *.cookie
+
+.idea
