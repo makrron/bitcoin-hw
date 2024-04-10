@@ -14,8 +14,29 @@ char* to_hexadecimal(unsigned char* hash, size_t size) {
 }
 
 char* generate_private_key() {
+    FILE *urandom = fopen("/dev/urandom", "r");
+    if (urandom == NULL) {
+        perror("No se pudo abrir /dev/urandom");
+        return NULL;
+    }
+
+    unsigned char bytes[32];
+    size_t read = fread(bytes, 1, 32, urandom);
+    if (read < 32) {
+        perror("No se pudo leer suficiente entropía");
+        fclose(urandom);
+        return NULL;
+    }
+    fclose(urandom);
+
+    // Convertir los bytes a hexadecimal
+    char *private_key = to_hexadecimal(bytes, 32); // Utiliza la función existente to_hexadecimal
+    return private_key;
+}
+
+char* convert_private_key_to_wif(const char* hex_priv_key) {
     // 1. Clave privada en hexadecimal
-    char* hex_priv_key = "0C28FCA386C7A227600B2FE50B7CAE11EC86D3BF1FBE471BE89827E19D72AA1D";
+    //char* hex_priv_key = "0C28FCA386C7A227600B2FE50B7CAE11EC86D3BF1FBE471BE89827E19D72AA1D";
     //printf("1. Take a private key:\n\t%s\n", hex_priv_key);
 
     // 2. Añadir '80' al principio y '01' al final

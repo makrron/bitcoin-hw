@@ -50,3 +50,29 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+
+# keys, certificates and other sensitive files
+*.pem
+*.key
+*.csr
+*.crt
+*.cert
+private/
+keys/
+cacerts/
+*.p12
+*.pfx
+*.gpg
+*.jks
+*.pub
+
+# bitcoin sensitive files
+wallet.dat
+*.bak
+*.log
+*.dat
+*.conf
+*.pid
+*.lock
+*.cookie
