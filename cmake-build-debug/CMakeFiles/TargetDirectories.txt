@@ -1,0 +1,3 @@
+/home/makrron/CLionProjects/bitcoin-hw/cmake-build-debug/CMakeFiles/pruebasC.dir
+/home/makrron/CLionProjects/bitcoin-hw/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/makrron/CLionProjects/bitcoin-hw/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,14 @@
+# ninja log v5
+0	20	1712833091626259350	CMakeFiles/pruebasC.dir/pk2hash.c.o	63494ab1c7bae6
+1	19	1712833408459408238	CMakeFiles/pruebasC.dir/main.c.o	6529b6af478f4b63
+0	30	1712513370928276521	CMakeFiles/pruebasC.dir/base58.c.o	2d01239f75605eb4
+1	21	1712833408459408238	CMakeFiles/pruebasC.dir/hex_to_bytes.c.o	3ad85cd8f788ad76
+0	14	1712833455624244058	build.ninja	76db33f4c8dac217
+21	56	1712833408491402170	pruebasC	2936bb109416bd5d
+0	21	1712833408459408238	CMakeFiles/pruebasC.dir/publicKey.c.o	6e83fa8383537861
+1	22	1712749982154146968	CMakeFiles/pruebasC.dir/privateKey.c.o	70855634b5c282cf
+1	14	1712833455624244058	build.ninja	76db33f4c8dac217
+0	18	1712833455648239878	CMakeFiles/pruebasC.dir/publicKey.c.o	6e83fa8383537861
+0	19	1712833455648239878	CMakeFiles/pruebasC.dir/main.c.o	6529b6af478f4b63
+0	19	1712833455648239878	CMakeFiles/pruebasC.dir/hex_bytes.c.o	626d02ecc1c7293
+19	55	1712833455680234305	pruebasC	673f3cf7d8dd956c
