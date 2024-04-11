@@ -10,9 +10,11 @@ add_executable(pruebasC
         privateKey.h
         publicKey.h
         publicKey.c
-        hex_to_bytes.c
-        hex_to_bytes.h
+        hex_bytes.c
+        hex_bytes.h
         main.c
+        pk2hash.c
+        pk2hash.h
 )
 
 # Link against the OpenSSL crypto library

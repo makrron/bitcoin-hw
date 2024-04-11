@@ -1,7 +1,9 @@
 // hex_to_bytes.c
 
-#include "hex_to_bytes.h"
+#include "hex_bytes.h"
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 // Función auxiliar para convertir un solo carácter hexadecimal a su valor numérico equivalente
 static int hex_char_to_int(char c) {
@@ -36,4 +38,14 @@ int hex_to_bytes(const char *hex, unsigned char *bytes, size_t bytes_len) {
     }
 
     return 1; // Éxito
+}
+
+// Función para convertir bytes a una cadena hexadecimal
+char* bytes_to_hex(const unsigned char* bytes, size_t len) {
+    char* hex_str = (char*)malloc(len * 2 + 1); // Cada byte se convierte en 2 caracteres hexadecimales
+    for (size_t i = 0; i < len; i++) {
+        sprintf(hex_str + i * 2, "%02x", bytes[i]);
+    }
+    hex_str[len * 2] = '\0'; // Asegurarse de terminar la cadena
+    return hex_str;
 }

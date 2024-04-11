@@ -1,43 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "privateKey.h"
 #include "publicKey.h"
+#include "pk2hash.h"
+#include "hex_bytes.h"
 
 
 int main() {
-
     const char* private_key_hex = generate_private_key();
     if (private_key_hex != NULL) {
-        printf("Hex Pricate Key: %s\n", private_key_hex);
+        printf("Hex Private Key: %s\n", private_key_hex);
 
         unsigned char public_key[33]; // Tamaño para clave pública comprimida
-
-        char *wif_private_key = NULL;
-        wif_private_key = convert_private_key_to_wif(private_key_hex);
-        printf("[TESNET] WIF Private Key: %s\n", wif_private_key);
-
         size_t public_key_len = sizeof(public_key);
 
         if (generate_public_key_from_hex(private_key_hex, public_key, &public_key_len)) {
-            printf("[COMPRESSED] Public Key: ");
-            for (size_t i = 0; i < public_key_len; i++) {
-                printf("%02x", public_key[i]);
-            }
-            printf("\n");
+            // Convertir la clave pública a hexadecimal para su uso con hash160
+            char* public_key_hex = bytes_to_hex(public_key, public_key_len);
+            printf("[COMPRESSED] Hex Public Key:  %s\n", public_key_hex);
+
+            char* hash160 = (char*)malloc(40); // 20 bytes en hexadecimal
+            publicKeytoHash(public_key_hex, hash160);
+            printf("Hash160: %s\n", hash160);
+
+            free(public_key_hex); // No olvides liberar la memoria
+            free(hash160); // No olvides liberar la memoria
         } else {
             printf("Error al generar la clave pública.\n");
         }
 
-
-        // Liberar la memoria
-        free(wif_private_key);
+        // Liberar la memoria y otros recursos como antes
+        free((char*)private_key_hex); // Asegúrate de liberar la clave privada generada
 
     } else {
         printf("Error al generar la clave privada.\n");
     }
 
-
     return 0;
 }
-

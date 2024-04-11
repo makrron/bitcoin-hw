@@ -3,7 +3,7 @@
 #include "publicKey.h"
 #include <stdio.h>
 #include <secp256k1.h>
-#include "hex_to_bytes.h" // Asegúrate de tener este archivo en tu proyecto
+#include "hex_bytes.h" // Asegúrate de tener este archivo en tu proyecto
 
 // Implementa la función declarada en publicKey.h
 int generate_public_key_from_hex(const char *private_key_hex, unsigned char *public_key, size_t *public_key_len) {
