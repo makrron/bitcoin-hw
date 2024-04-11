@@ -78,3 +78,5 @@ wallet.dat
 *.cookie
 
 .idea
+cmake-build-debug
+.cmake
