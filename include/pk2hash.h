@@ -5,6 +5,6 @@
 #ifndef PRUEBASC_PK2HASH_H
 #define PRUEBASC_PK2HASH_H
 
-void publicKeytoHash(const char *data, char *output);
+void publicKeytoHash(char*, char *output);
 
 #endif //PRUEBASC_PK2HASH_H
