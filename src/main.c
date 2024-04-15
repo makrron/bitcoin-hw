@@ -58,8 +58,6 @@ int main() {
                 } else {
                     printf("La firma no es válida.\n");
                 }
-
-
             } else {
                 printf("Error al firmar la transacción.\n");
             }
