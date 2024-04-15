@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "pk2hash.h"
 
-
-void publicKeytoHash(const char *data, char *output) {
+void publicKeytoHash(char* data, char *output){
     unsigned char sha256_digest[SHA256_DIGEST_LENGTH];
     unsigned char ripemd160_digest[RIPEMD160_DIGEST_LENGTH];
 

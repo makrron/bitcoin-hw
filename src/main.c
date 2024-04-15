@@ -5,10 +5,35 @@
 #include "pk2hash.h"
 #include "hex_bytes.h"
 #include "signature.h"
+#include "generateAddress.h"
 
+// Función para leer la clave privada desde un archivo
+char* read_private_key_from_file(const char* filename) {
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        printf("Error abriendo el archivo.\n");
+        return NULL;
+    }
+
+    char* key = malloc(65); //la clave privada es un hexadecimal de 64 caracteres + '\0'
+    if (fscanf(file, "%64s", key) != 1) {
+        printf("Error leyendo la clave privada del archivo.\n");
+        free(key);
+        fclose(file);
+        return NULL;
+    }
+
+    fclose(file);
+    return key;
+}
 
 int main() {
-    const char* private_key_hex = generate_private_key();
+
+
+    //const char* private_key_hex = generate_private_key();
+    //lee de un fichero la clave privada
+    const char* private_key_hex = read_private_key_from_file("private_key.txt");
+
     if (private_key_hex != NULL) {
         printf("Hex Private Key: %s\n", private_key_hex);
 
@@ -24,7 +49,7 @@ int main() {
             char* public_key_hex = bytes_to_hex(public_key, public_key_len);
             printf("[COMPRESSED] Hex Public Key:  %s\n", public_key_hex);
 
-            char* hash160 = (char*)malloc(40); // 20 bytes en hexadecimal
+            char* hash160 = malloc(40); // 20 bytes en hexadecimal
             publicKeytoHash(public_key_hex, hash160);
             printf("Public Key Hash: %s\n", hash160);
 
@@ -60,6 +85,16 @@ int main() {
                 }
             } else {
                 printf("Error al firmar la transacción.\n");
+            }
+
+            // Generar la dirección P2PKH
+            char* address = P2PKH_address(hash160, 1); // 1 para testnet
+
+            if (address) {
+                printf("Dirección P2PKH: %s\n", address);
+                free((char*)address); // Asegúrate de liberar la memoria
+            } else {
+                printf("Error al generar la dirección P2PKH.\n");
             }
 
             free(public_key_hex); // No olvides liberar la memoria

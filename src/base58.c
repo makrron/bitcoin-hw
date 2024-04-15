@@ -6,7 +6,7 @@
 
 const char* BASE58_CHARS = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
-void encode_base58(const char* hex, char* output) {
+void encode_base58(const char *hex, char *output) {
     BIGNUM *num = BN_new();
     BN_CTX *ctx = BN_CTX_new();
     BN_hex2bn(&num, hex);
