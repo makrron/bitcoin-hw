@@ -80,3 +80,4 @@ wallet.dat
 .idea
 cmake-build-debug/
 .cmake/
+bin/
