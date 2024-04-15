@@ -78,7 +78,6 @@ char* convert_private_key_to_wif(const char* hex_priv_key) {
     char* wif_private_key = malloc(512); // Asegúrate de que sea suficientemente grande.
     encode_base58(to_hexadecimal(final_key, len + 4), wif_private_key);
     //printf("7. Convert the extended key from step 6 into Base58 format:\n\t%s\n", wif_private_key);
-    free(final_key);
 
     return wif_private_key;
 

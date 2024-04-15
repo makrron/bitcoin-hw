@@ -27,5 +27,4 @@ void publicKeytoHash(const char *data, char *output) {
         sprintf(&output[i * 2], "%02x", ripemd160_digest[i]);
     }
 
-    //free(data_bytes);
 }

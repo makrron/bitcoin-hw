@@ -40,7 +40,7 @@ void encode_base58(const char* hex, char* output) {
     strcpy(output, &temp_output[index]);
 
     // Liberar recursos.
-    BN_free(num);
+    //BN_free(num);
     BN_free(divisor);
     BN_free(remainder);
     BN_CTX_free(ctx);
