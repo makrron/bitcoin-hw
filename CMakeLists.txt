@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(pruebasC)
+project(bitcoin-hw)
 
 # Establecer el estándar de C a usar, asumiendo que es C11 si no se usa C++
 set(CMAKE_C_STANDARD 11)
@@ -12,7 +12,7 @@ include_directories(include)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 
 # Agregar el ejecutable
-add_executable(pruebasC
+add_executable(bitcoin-hw
         src/main.c
         src/base58.c
         src/privateKey.c
@@ -24,10 +24,10 @@ add_executable(pruebasC
 )
 
 # Incluir el directorio para archivos de cabecera
-target_include_directories(pruebasC PRIVATE include)
+target_include_directories(bitcoin-hw PRIVATE include)
 
 # Enlazar contra la biblioteca criptográfica OpenSSL
-target_link_libraries(pruebasC crypto)
+target_link_libraries(bitcoin-hw crypto)
 
 # Enlazar contra la biblioteca secp256k1
-target_link_libraries(pruebasC secp256k1)
+target_link_libraries(bitcoin-hw secp256k1)
