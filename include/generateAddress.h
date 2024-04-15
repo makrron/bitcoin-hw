@@ -1,0 +1,8 @@
+//
+// Created by makrron on 11/04/24.
+//
+
+#ifndef PRUEBASC_GENERATEADDRESS_H
+#define PRUEBASC_GENERATEADDRESS_H
+
+#endif //PRUEBASC_GENERATEADDRESS_H
