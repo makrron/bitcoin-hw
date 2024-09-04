@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.27)
 project(bitcoin-hw)
 
-# Establecer el estándar de C a usar, asumiendo que es C11 si no se usa C++
+# Establecer el estándar de C a usar, C11
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
@@ -21,13 +21,15 @@ add_executable(bitcoin-hw
         src/pk2hash.c
         src/generateAddress.c
         src/signature.c
+        src/bip38.c
 )
-
-# Incluir el directorio para archivos de cabecera
-target_include_directories(bitcoin-hw PRIVATE include)
 
 # Enlazar contra la biblioteca criptográfica OpenSSL
 target_link_libraries(bitcoin-hw crypto)
 
 # Enlazar contra la biblioteca secp256k1
 target_link_libraries(bitcoin-hw secp256k1)
+
+# Enlazar con libscrypt
+find_library(SCRYPT_LIB scrypt REQUIRED PATHS /usr/local/lib)  # Ajusta la ruta según sea necesario
+target_link_libraries(bitcoin-hw ${SCRYPT_LIB})

@@ -27,7 +27,7 @@ char* read_private_key_from_file(const char* filename) {
     return key;
 }
 
-int main() {
+int main2() {
 
 
     //const char* private_key_hex = generate_private_key();
