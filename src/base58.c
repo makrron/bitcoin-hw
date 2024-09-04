@@ -104,3 +104,35 @@ void decode_base58(const char* base58, char* output) {
     BN_CTX_free(ctx);
     OPENSSL_free(hex);
 }
+
+char* encode_base58_bip(const unsigned char* input, size_t input_len) {
+    int zero_count = 0;
+    while (zero_count < input_len && input[zero_count] == 0) ++zero_count;
+
+    size_t size = input_len * 138 / 100 + 1;
+    unsigned char* buffer = (unsigned char*)calloc(size, 1);
+
+    for (size_t i = zero_count; i < input_len; i++) {
+        int carry = input[i];
+        for (ssize_t j = size - 1; j >= 0; j--) {
+            carry += 256 * buffer[j];
+            buffer[j] = carry % 58;
+            carry /= 58;
+        }
+    }
+
+    int it = 0;
+    while (it < size && buffer[it] == 0) ++it;
+
+    size_t result_size = zero_count + (size - it);
+    char* result = (char*)malloc(result_size + 1);
+    memset(result, '1', zero_count);
+
+    for (size_t i = zero_count; i < result_size; i++) {
+        result[i] = BASE58_CHARS[buffer[it++]];
+    }
+    result[result_size] = '\0';
+
+    free(buffer);
+    return result;
+}
