@@ -94,7 +94,7 @@ int main() {
             char* address = P2PKH_address(hash160, 1); // 1 para testnet
 
             if (address) {
-                printf("Dirección P2PKH: %s\n", address);
+                printf("Dirección P2PKH [TESTNET]: %s\n", address);
                 free((char*)address); // Asegúrate de liberar la memoria
             } else {
                 printf("Error al generar la dirección P2PKH.\n");
