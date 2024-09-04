@@ -22,6 +22,7 @@ add_executable(bitcoin-hw
         src/generateAddress.c
         src/signature.c
         src/bip38.c
+        include/bip38.h
 )
 
 # Enlazar contra la biblioteca criptográfica OpenSSL

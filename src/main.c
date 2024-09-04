@@ -6,6 +6,7 @@
 #include "hex_bytes.h"
 #include "signature.h"
 #include "generateAddress.h"
+#include "bip38.h"
 
 // Función para leer la clave privada desde un archivo
 char* read_private_key_from_file(const char* filename) {
@@ -27,9 +28,7 @@ char* read_private_key_from_file(const char* filename) {
     return key;
 }
 
-int main2() {
-
-
+int main() {
     //const char* private_key_hex = generate_private_key();
     //lee de un fichero la clave privada
     const char* private_key_hex = read_private_key_from_file("private_key.txt");
@@ -37,6 +36,10 @@ int main2() {
     if (private_key_hex != NULL) {
         printf("Hex Private Key: %s\n", private_key_hex);
 
+        // Exportamos la clave privada cifrada con bip38 con una contraseña
+        char* encrypted_key = bip38_encrypt(private_key_hex, "password");
+        // Imprimimos la clave privada cifrada
+        printf("Encrypted Private Key [MAINNET]: %s\n", encrypted_key);
         unsigned char public_key[33]; // Tamaño para clave pública comprimida
         size_t public_key_len = sizeof(public_key);
 

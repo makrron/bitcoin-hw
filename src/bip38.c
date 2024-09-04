@@ -107,7 +107,7 @@ char* bip38_encrypt(const char* privkey_hex, const char* passphrase) {
     return encode_base58_bip(encrypted_privkey, 43);
 }
 
-int main() {
+int main2() {
     const char* privkey_hex = "09C2686880095B1A4C249EE3AC4EEA8A014F11E6F986D0B5025AC1F39AFBD9AE";
     const char* passphrase = "TestingOneTwoThree";
     char* encrypted_privkey = bip38_encrypt(privkey_hex, passphrase);
