@@ -73,7 +73,6 @@ char* bip38_encrypt(const char* privkey_hex, const char* passphrase) {
     }
 
     double_sha256_first4(address, addresshash);
-    free(address);
 
     if (libscrypt_scrypt((const uint8_t*)passphrase, strlen(passphrase), addresshash, sizeof(addresshash), 16384, 8, 8, derived_key, 64) != 0) {
         fprintf(stderr, "Error en la derivación de clave con scrypt\n");
@@ -107,7 +106,7 @@ char* bip38_encrypt(const char* privkey_hex, const char* passphrase) {
     return encode_base58_bip(encrypted_privkey, 43);
 }
 
-int main2() {
+/*int main2() {
     const char* privkey_hex = "09C2686880095B1A4C249EE3AC4EEA8A014F11E6F986D0B5025AC1F39AFBD9AE";
     const char* passphrase = "TestingOneTwoThree";
     char* encrypted_privkey = bip38_encrypt(privkey_hex, passphrase);
@@ -120,4 +119,4 @@ int main2() {
     }
 
     return 0;
-}
+}*/

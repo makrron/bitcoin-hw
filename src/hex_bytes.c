@@ -23,7 +23,7 @@ int hex_to_bytes(const char *hex, unsigned char *bytes, size_t bytes_len) {
 
     size_t expected_bytes_len = hex_len / 2;
     if (bytes_len < expected_bytes_len) {
-        // El arreglo de bytes proporcionado no es lo suficientemente grande
+        // El array de bytes proporcionado no es lo suficientemente grande
         return 0;
     }
 

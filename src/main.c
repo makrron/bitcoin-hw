@@ -29,48 +29,65 @@ char* read_private_key_from_file(const char* filename) {
 }
 
 int main() {
-    //const char* private_key_hex = generate_private_key();
+    const char* private_key_hex = generate_private_key();
     //lee de un fichero la clave privada
-    const char* private_key_hex = read_private_key_from_file("private_key.txt");
+    //const char* private_key_hex = read_private_key_from_file("private_key.txt");
 
     if (private_key_hex != NULL) {
         printf("Hex Private Key: %s\n", private_key_hex);
 
-        // Exportamos la clave privada cifrada con bip38 con una contraseña
-        char* encrypted_key = bip38_encrypt(private_key_hex, "password");
-        // Imprimimos la clave privada cifrada
-        printf("Encrypted Private Key [MAINNET]: %s\n", encrypted_key);
+        // Separación de operaciones con la clave privada
+        printf("\n--- Operaciones con la Clave Privada ---\n");
+
+        // Cifrando la clave privada con bip38
+        const char* passphrase = "TestingOneTwoThree";
+        char* encrypted_privkey = bip38_encrypt(private_key_hex, passphrase);
+
+        if (encrypted_privkey != NULL) {
+            printf("Clave privada cifrada (BIP38): %s\n", encrypted_privkey);
+            free(encrypted_privkey);
+        } else {
+            printf("Fallo al cifrar la clave privada.\n");
+        }
+
+        // Convertir a WIF
+        char* wif = convert_private_key_to_wif(private_key_hex);
+        printf("[TESTNET] WIF Private Key: %s\n", wif);
+
+        // Separación de operaciones con la clave pública
+        printf("\n--- Operaciones con la Clave Pública ---\n");
+
+        // Generar la clave pública
         unsigned char public_key[33]; // Tamaño para clave pública comprimida
         size_t public_key_len = sizeof(public_key);
-
-        //convertir a WIF
-        char* wif = convert_private_key_to_wif(private_key_hex);
-        printf("[TESNET] WIF Private Key: %s\n", wif);
 
         if (generate_public_key_from_hex(private_key_hex, public_key, &public_key_len)) {
             // Convertir la clave pública a hexadecimal para su uso con hash160
             char* public_key_hex = bytes_to_hex(public_key, public_key_len);
             printf("[COMPRESSED] Hex Public Key:  %s\n", public_key_hex);
 
+            // Generar el hash160 de la clave pública
             char* hash160 = malloc(40); // 20 bytes en hexadecimal
             publicKeytoHash(public_key_hex, hash160);
             printf("Public Key Hash: %s\n", hash160);
 
-            // Creamos una tx en hex de prueba:
+            // Separación de la firma
+            printf("\n--- Firma de Transacción ---\n");
+
+            // Crear una transacción de prueba
             unsigned char tx_hash[32] = {
                     0xBA, 0xAD, 0xF0, 0x0D, 0xBA, 0xAD, 0xF0, 0x0D, 0xBA, 0xAD, 0xF0, 0x0D, 0xBA, 0xAD, 0xF0, 0x0D,
                     0xBA, 0xAD, 0xF0, 0x0D, 0xBA, 0xAD, 0xF0, 0x0D, 0xBA, 0xAD, 0xF0, 0x0D, 0xBA, 0xAD, 0xF0, 0x0D
             };
-            //print tx hash
             printf("Tx Hash: ");
             for (size_t i = 0; i < 32; i++) {
                 printf("%02x", tx_hash[i]);
             }
             printf("\n");
-            // Espacio para almacenar la firma
+
+            // Firmar la transacción
             unsigned char signature[72];
             size_t signature_len = sizeof(signature);
-            // Intenta firmar el hash de la transacción
             if (sign_transaction(private_key_hex, tx_hash, signature, &signature_len)) {
                 printf("Firma generada con éxito.\n");
                 printf("Firma DER: ");
@@ -79,23 +96,28 @@ int main() {
                 }
                 printf("\n");
 
-                // si la firma es válida verificamos la firma con la clave pública
+                // Verificar la firma
                 int result = verify_signature(public_key_hex, tx_hash, signature, signature_len);
                 if (result) {
-                    printf("La firma es válida.\n");
+                    printf("Firma verificada con éxito.\n");
                 } else {
-                    printf("La firma no es válida.\n");
+                    printf("Error al verificar la firma.\n");
                 }
             } else {
                 printf("Error al firmar la transacción.\n");
             }
 
-            // Generar la dirección P2PKH
-            char* address = P2PKH_address(hash160, 1); // 1 para testnet
+            // Separación de la generación de la dirección
+            printf("\n--- Generación de Dirección P2PKH ---\n");
 
-            if (address) {
-                printf("Dirección P2PKH [TESTNET]: %s\n", address);
-                free((char*)address); // Asegúrate de liberar la memoria
+            // Generar la dirección P2PKH
+            char* testnet_address = P2PKH_address(hash160, 1); // 1 para testnet
+            char* mainnet_address = P2PKH_address(hash160, 0); // 0 para mainnet
+            if (testnet_address) {
+                printf("Dirección P2PKH [TESTNET]: %s\n", testnet_address);
+                printf("Dirección P2PKH [MAINNET]: %s\n", mainnet_address);
+                free((char*)testnet_address); // Asegúrate de liberar la memoria
+                free((char*)mainnet_address); // Asegúrate de liberar la memoria
             } else {
                 printf("Error al generar la dirección P2PKH.\n");
             }
@@ -106,9 +128,7 @@ int main() {
             printf("Error al generar la clave pública.\n");
         }
 
-        // Liberar la memoria y otros recursos como antes
         free((char*)private_key_hex); // Asegúrate de liberar la clave privada generada
-
     } else {
         printf("Error al generar la clave privada.\n");
     }

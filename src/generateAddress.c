@@ -6,48 +6,37 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 char* P2PKH_address(const char* public_key_hash_hex, int network) {
-    //printf("Generating address...\n");
-    //printf("Public Key Hash: %s\n", public_key_hash_hex);
-
-    unsigned char address[25]; // 1 byte for prefix + 20 bytes for public key hash + 4 bytes for checksum
+    unsigned char address[25]; // 1 byte para el prefijo + 20 bytes para el hash de la clave pública + 4 bytes para el checksum
     char* output = malloc(50); // Ajustar según la necesidad del tamaño de la salida de base58
     if (!output) {
-        fprintf(stderr, "Memory allocation failed\n");
+        fprintf(stderr, "Fallo en la asignación de memoria\n");
         return NULL;
     }
 
-    // Convert hex string to binary
+    // Convertir cadena hexadecimal a binario
     unsigned char public_key_hash[20];
     hex_to_bytes(public_key_hash_hex, public_key_hash, sizeof(public_key_hash));
 
-    // Set prefix based on network: 0x00 for Mainnet, 0x6f for Testnet
+    // Establecer prefijo según la red: 0x00 para Mainnet, 0x6f para Testnet
     address[0] = (network == 0) ? 0x00 : 0x6f;
-    memcpy(address + 1, public_key_hash, 20); // Copy the public key hash into the address buffer after the prefix
+    memcpy(address + 1, public_key_hash, 20); // Copiar el hash de la clave pública en el buffer de la dirección después del prefijo
 
     unsigned char hash[SHA256_DIGEST_LENGTH];
-    SHA256(address, 21, hash); // Hash the first 21 bytes of the address
-    SHA256(hash, SHA256_DIGEST_LENGTH, hash); // Hash the hash to get the checksum
+    SHA256(address, 21, hash); // Hashear los primeros 21 bytes de la dirección
+    SHA256(hash, SHA256_DIGEST_LENGTH, hash); // Hashear el hash para obtener el checksum
 
-    // Copy first 4 bytes of the result into the last 4 bytes of the address array for checksum
+    // Copiar los primeros 4 bytes del resultado en los últimos 4 bytes del array de la dirección para el checksum
     memcpy(address + 21, hash, 4);
 
-    //printf("Checksum: ");
-    //for (int i = 0; i < 4; i++) {
-    //    printf("%02x", hash[i]);
-    //}
-    //printf("\n");
-
-    // Convert address (now full 25-byte array) to a hexadecimal string for Base58 encoding
-    char* hex; // Each byte can be up to 2 hex characters
+    // Convertir la dirección (ahora array completo de 25 bytes) a una cadena hexadecimal para la codificación Base58
+    char* hex; // Cada byte puede ser de hasta 2 caracteres hexadecimales
     hex = bytes_to_hex(address, 25);
 
-    // Base58 encoding of the address
-    encode_base58(hex, output); // Assuming encode_base58 is corrected to use this hex input
+    // Codificación Base58 de la dirección
+    encode_base58(hex, output); // Suponiendo que encode_base58 usa una entrada hexadecimal
 
     free(hex);
 
     return output;
 }
-
