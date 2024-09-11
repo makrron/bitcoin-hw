@@ -29,9 +29,9 @@ char* read_private_key_from_file(const char* filename) {
 }
 
 int main() {
-    const char* private_key_hex = generate_private_key();
+    const char* private_key_hex = generate_private_key(); // Genera una clave privada aleatoria
     //lee de un fichero la clave privada
-    //const char* private_key_hex = read_private_key_from_file("private_key.txt");
+    //const char* private_key_hex = read_private_key_from_file("private_key.txt"); // Lee la clave privada de un archivo
 
     if (private_key_hex != NULL) {
         printf("Hex Private Key: %s\n", private_key_hex);
